@@ -1,10 +1,9 @@
+require('dotenv').config();
 const router = require('express').Router();
 const multer = require('multer');
 const path = require('path');
 const File = require('../models/file');
 const { v4: uuidv4 } = require('uuid');
-const { send } = require('process');
-const APP_BASE_URL = 'http://localhost:3000'
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => cb(null, 'uploads/') ,
@@ -33,7 +32,7 @@ router.post('/', (req, res) => {
           size: req.file.size
       });
       const response = await file.save();
-      res.json({ file: `${APP_BASE_URL}/files/${response.uuid}` });
+      res.json({ file: `${process.env.APP_BASE_URL}/files/${response.uuid}` });
     });
 });
 
